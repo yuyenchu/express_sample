@@ -1,5 +1,5 @@
 # Express Sample
-This is a simple express server to showcase basic REST api methods, and it's using ejs with express for simple login/out app.
+This is a simple express server to showcase basic REST api methods, using ejs with express for simple login/out app.
 
 # Installation guide:
 - download the project with git clone or zip
