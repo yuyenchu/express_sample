@@ -3,8 +3,9 @@ Using ejs with express for simple login/out app
 
 # installation guide:
 - download the project with git clone or zip
-- cd into the directory
+- open terminal and cd into the directory
 - install npm packages by entering ```npm i & npm i pm2 --save```
-- start express server by entering ```pm2 start ecosystem.config.js```, and enter ```pm2 log sample-api-app``` to see the logs
+- start express server by entering ```pm2 start ecosystem.config.js```
+- enter ```pm2 log sample-api-app``` to see the logs (optional)
 - go to [localhost:3000](https://localhost:3000) and edit files to see what changes
 - stop express server by entering ```pm2 stop sample-api-app```, and later start server with ```pm2 start sample-api-app``` if needed
