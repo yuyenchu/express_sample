@@ -14,3 +14,4 @@ This is a simple express server to showcase basic REST api methods, using ejs wi
 # Resources:
 - [REST explanined](https://www.infoq.com/articles/rest-introduction/)
 - [Express Tutorial](https://www.robinwieruch.de/node-express-server-rest-api)
+- [EJS docs](https://ejs.co/#docs)
