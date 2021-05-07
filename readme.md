@@ -1,5 +1,5 @@
-# This is a simple express template to show basic REST api methods
-=============
+# This is a simple express server to showcase basic REST api methods
+using ejs for 
 
 # installation guide:
 - download the files with git clone or zip
