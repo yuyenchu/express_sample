@@ -32,8 +32,8 @@ var connection = mysql.createConnection({
     database : MS.database
 });
 
-// mysql query
-var queryResult = await connection.query(GET_ALL_COUNT, function (error, results, fields) {
+// mysql query (async)
+var queryResult = connection.query(GET_ALL_COUNT, function (error, results, fields) {
     if (error) throw error;
     results.forEach(r => {
         console.log(JSON.stringify(r));
