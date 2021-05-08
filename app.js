@@ -1,15 +1,16 @@
 var express = require('express');
 var session = require('express-session');
-var path = require('path');
-var mysql = require('mysql');
-var moment = require('moment');
-var cors = require('cors');
 var bodyparser = require('body-parser');
+var cors = require('cors');
+var moment = require('moment');
+var mysql = require('mysql');
+var path = require('path');
 var request = require('request');
 
 
 var app = express();
 
+// reading configurations from config directory
 process.env['NODE_CONFIG_DIR'] = __dirname + '/config/';
 const config = require('config');
 const MS = config.get('mysql');
@@ -18,11 +19,6 @@ const UTC_OFFSET = config.get('utcOffset');
 
 // preparing sql statements
 const GET_ALL_COUNT = `SELECT COUNT(*) AS count FROM ${MS.table};`;
-const GET_ALL_ID = `SELECT DISTINCT id FROM ${MS.table} ORDER BY id asc;`;
-const SELECT_BY_ID = `SELECT * FROM ${MS.table} WHERE id = ? ORDER BY id asc;`;
-const SELECT_BY_AURTHOR = `SELECT * FROM ${MS.table} WHERE aurthor = ? ORDER BY id asc;`;
-const INSERT = `INSERT INTO ${MS.table} VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
-// VALUES(id, html, css, javascript, html_content, css_content, javascript_content, aurthor, descriptions, updated)
 
 // connect to mysql database
 var connection = mysql.createConnection({
@@ -40,15 +36,16 @@ var queryResult = connection.query(GET_ALL_COUNT, function (error, results, fiel
     });
 });
 
-//moment for formating mysql datetime
-moment().utcOffset(UTC_OFFSET).format('YYYY-MM-DD HH:mm:ss');
+// moment formating current datetime in mysql datetime style
+var time = moment().utcOffset(UTC_OFFSET).format('YYYY-MM-DD HH:mm:ss');
 
 // app setup
 // using ejs views for dynamic pages
 app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'ejs');
-// set static directory
+// using CORS middleware
 app.use(cors());
+// set static directory
 app.use(express.static(__dirname + '/public'));
 // setting express session for user login/logout
 app.use(session({
@@ -58,7 +55,6 @@ app.use(session({
 }));
 // setting cache control to do not allow any disk cache 
 // to prevent reload page without login
-// pre: res != null
 app.use((req, res, next) => {
     res.set('Cache-Control', 'no-store')
     next()
@@ -109,4 +105,5 @@ app.post('/logout', function(req, res) {
 // start server on port specified in config
 app.listen(PORT, function () {
     console.log('app listening on port '+PORT+'!');
+    console.log(`app starting at ${time}`)
 });
