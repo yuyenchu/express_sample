@@ -7,5 +7,5 @@
         "database" : "db_name",
         "table" : "table_name"
     },
-    "utcOffset": 8
+    "utcOffset": 0
 }
