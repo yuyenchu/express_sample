@@ -16,3 +16,4 @@ This is a simple express server to showcase basic REST api methods, using ejs wi
 - [Express Tutorial](https://www.robinwieruch.de/node-express-server-rest-api)
 - [Express docs](https://expressjs.com/en/4x/api.html)
 - [EJS docs](https://ejs.co/#docs)
+- [PM2 ecosystem](https://pm2.keymetrics.io/docs/usage/application-declaration/)
