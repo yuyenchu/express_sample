@@ -40,7 +40,7 @@ var queryResult = connection.query(GET_ALL_COUNT, function (error, results, fiel
     });
 });
 
-//moment for formating datetime
+//moment for formating mysql datetime
 moment().utcOffset(UTC_OFFSET).format('YYYY-MM-DD HH:mm:ss');
 
 // app setup
