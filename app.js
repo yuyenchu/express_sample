@@ -1,23 +1,47 @@
 var express = require('express');
 var session = require('express-session');
 var path = require('path');
-// var mysql = require('mysql');
+var mysql = require('mysql');
+var moment = require('moment');
 var cors = require('cors');
 var bodyparser = require('body-parser');
+var request = require('request');
+
+
 var app = express();
 
 process.env['NODE_CONFIG_DIR'] = __dirname + '/config/';
 const config = require('config');
-// const request = require('request');
-// const ms = config.get('mysql');
+const MS = config.get('mysql');
 const PORT = config.get('port');
+const UTC_OFFSET = config.get('utcOffset');
 
-// var connection = mysql.createConnection({
-//     host     : ms.host,
-//     user     : ms.user,
-//     password : ms.password,
-//     database : ms.database
-// });
+// preparing sql statements
+const GET_ALL_COUNT = `SELECT COUNT(*) AS count FROM ${MS.table};`;
+const GET_ALL_ID = `SELECT DISTINCT id FROM ${MS.table} ORDER BY id asc;`;
+const SELECT_BY_ID = `SELECT * FROM ${MS.table} WHERE id = ? ORDER BY id asc;`;
+const SELECT_BY_AURTHOR = `SELECT * FROM ${MS.table} WHERE aurthor = ? ORDER BY id asc;`;
+const INSERT = `INSERT INTO ${MS.table} VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+// VALUES(id, html, css, javascript, html_content, css_content, javascript_content, aurthor, descriptions, updated)
+
+// connect to mysql database
+var connection = mysql.createConnection({
+    host     : MS.host,
+    user     : MS.user,
+    password : MS.password,
+    database : MS.database
+});
+
+// mysql query
+var queryResult = await connection.query(GET_ALL_COUNT, function (error, results, fields) {
+    if (error) throw error;
+    results.forEach(r => {
+        console.log(JSON.stringify(r));
+    });
+});
+
+//moment for formating datetime
+moment().utcOffset(UTC_OFFSET).format('YYYY-MM-DD HH:mm:ss');
 
 // app setup
 // using ejs views for dynamic pages

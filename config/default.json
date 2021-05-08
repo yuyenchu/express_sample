@@ -4,6 +4,8 @@
         "host": "localhost",
         "user": "root",
         "password" : "password",
-        "database" : "da_name"
-    }
+        "database" : "db_name",
+        "table" : "table_name"
+    },
+    "utcOffset": 8
 }
