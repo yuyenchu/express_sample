@@ -1,6 +1,5 @@
 var express = require('express');
 var session = require('express-session');
-var bodyparser = require('body-parser');
 var cors = require('cors');
 var helmet = require("helmet");
 var moment = require('moment');
@@ -65,8 +64,9 @@ app.use((req, res, next) => {
     res.set('Cache-Control', 'no-store')
     next()
 });
-app.use(bodyparser.urlencoded({ extended: false }));
-app.use(bodyparser.json());
+// using parsing middlewares for urlencoded and json payloads 
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 // get methods
 // send simple text, url: http://localhost:3000
