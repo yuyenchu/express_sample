@@ -2,7 +2,9 @@ var express = require('express');
 var session = require('express-session');
 var bodyparser = require('body-parser');
 var cors = require('cors');
+var helmet = require("helmet");
 var moment = require('moment');
+var morgan = require("morgan");
 var mysql = require('mysql');
 var path = require('path');
 var request = require('request');
@@ -12,9 +14,9 @@ var app = express();
 
 // reading configurations from config directory
 process.env['NODE_CONFIG_DIR'] = __dirname + '/config/';
-const config = require('config');
-const MS = config.get('mysql');
-const PORT = config.get('port');
+const config    = require('config');
+const MS        = config.get('mysql');
+const PORT      = config.get('port');
 const UTC_OFFSET = config.get('utcOffset');
 
 // preparing sql statements
@@ -43,9 +45,13 @@ var time = moment().utcOffset(UTC_OFFSET).format('YYYY-MM-DD HH:mm:ss');
 // using ejs views for dynamic pages
 app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'ejs');
-// using CORS middleware
+// using HTTP request logger middleware
+app.use(morgan("common"));
+// using secure HTTP headers middleware
+app.use(helmet());
+// using CORS middleware (allowing all CORS)
 app.use(cors());
-// set static directory
+// setting static directory
 app.use(express.static(__dirname + '/public'));
 // setting express session for user login/logout
 app.use(session({
@@ -104,6 +110,6 @@ app.post('/logout', function(req, res) {
 
 // start server on port specified in config
 app.listen(PORT, function () {
-    console.log('app listening on port '+PORT+'!');
+    console.log(`app listening on port ${PORT}!`);
     console.log(`app starting at ${time}`)
 });
