@@ -1,13 +1,12 @@
-var express = require('express');
-var session = require('express-session');
-var cors = require('cors');
-var helmet = require("helmet");
-var moment = require('moment');
-var morgan = require("morgan");
-var mysql = require('mysql');
-var path = require('path');
-var request = require('request');
-
+const express = require('express');
+const session = require('express-session');
+const cors    = require('cors');
+const helmet  = require('helmet');
+const moment  = require('moment');
+const morgan  = require('morgan');
+const mysql   = require('mysql');
+const path    = require('path');
+const request = require('request');
 
 var app = express();
 
@@ -32,13 +31,22 @@ var connection = mysql.createConnection({
 // mysql query (async)
 var queryResult = connection.query(GET_ALL_COUNT, function (error, results, fields) {
     if (error) throw error;
+    console.log("mysql query results:");
     results.forEach(r => {
-        console.log(JSON.stringify(r));
+        console.log("\t"+JSON.stringify(r));
     });
 });
 
 // moment formating current datetime in mysql datetime style
 var time = moment().utcOffset(UTC_OFFSET).format('YYYY-MM-DD HH:mm:ss');
+
+// request http calls 
+request
+    .get('https://example.com')
+    .on('response', function(response) {
+        console.log(`request status : ${response.statusCode}`);
+        console.log(`request type   : ${response.headers['content-type']}`);
+    })
 
 // app setup
 // using ejs views for dynamic pages
